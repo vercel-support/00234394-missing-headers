@@ -2,14 +2,13 @@
 import { next } from '@vercel/edge';
 
 export default async function middleware(request: Request) {
-  console.log(request.headers.get('x-authorization'));
+  const authCookie = request.headers.get('cookie');
 
-  // This is always null/undefined
-  if (request.headers.get('x-authorization')) {
+  if (authCookie) {
     return next();
   }
 
   return Response.redirect(
-    `http://localhost:4200/api/auth?sourceUrl=${request.url}`
+    `http://localhost:3002/api/auth?sourceUrl=${request.url}`
   );
 }
